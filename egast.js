@@ -1,15 +1,9 @@
-
-
 const fs = require('node:fs');
 
-
-const file = 15
+const file = 15 // any valid race number
 
 async function getResults (){
-
-    const responseForResults = await fetch('http://ergast.com/api/f1/2024/13/results.json')
-
-    
+    const responseForResults = await fetch('http://ergast.com/api/f1/2024/13/results.json') //possible api deprecation
     const raceResults = await responseForResults.json()
     const races = raceResults.MRData.RaceTable.Races
     for(const race of races){
@@ -21,10 +15,7 @@ async function getResults (){
     }
 }
 
-
 async function getQualiData() {
-
-        
         try {
         const url = `http://ergast.com/api/f1/2024/${file}/qualifying.json`;
         const response = await fetch(url)
@@ -45,22 +36,15 @@ async function getQualiData() {
             )
             return quali
         }
-
-    
     } catch (error) {
         console.error(error.message);
     }
-
 }
 
 
 async function getConstructorStanding() {
-    
-
     try {
-            
        const response = await fetch(`http://ergast.com/api/f1/2024/${file}/constructorStandings.json`)
-        
         if (!response.ok) {
             throw new Error(`Response status: ${response.status} Results Status: ${responseForResults.status}`);
         }
@@ -93,16 +77,12 @@ async function getConstructorStanding() {
                 fs.writeFile(`./file${file}.json`, JSON.stringify(positions), err => {
                     if (err) {
                       console.error(err);
-                    } else {
-                      // file written successfully
                     }
                   });
             })
-            
         } catch (error) {
             console.log(error)
         }
-    
 }
 
 getConstructorStanding()
